@@ -1,5 +1,4 @@
 "use strict";
-// ! Иди к следующему bookmark. Это копия с main6.js
 const account1 = {
   owner: "Daniil Minin",
   movements: [2000000, 450, -400, 3000, -650, -130, 70, 1300],
