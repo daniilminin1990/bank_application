@@ -222,6 +222,11 @@ git commit -m "Что изменил"
 git push origin practice - пушим в ветку practice на GitHub
 git checkout master - сменили ветку на master
 git merge practice - совмещаем ветку master с веткой practice
+удаляю ненужное, например комментарии лишние
+git status - проверка
+git add . - сохраняем
+git commit -m "Что изменил"
+git push - пушим в master
 */
 
 // ! 8 - 13 Урок Перевод средств из аккаунта
