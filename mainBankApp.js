@@ -1,31 +1,26 @@
 "use strict";
-
+// ! Иди к следующему bookmark. Это копия с main6.js
 const account1 = {
   owner: "Daniil Minin",
   movements: [2000000, 450, -400, 3000, -650, -130, 70, 1300],
   pin: 1111,
 };
-
 const account2 = {
   owner: "Anna Filimonova",
   movements: [5000, 3400, -150, -790, -3210, -1999, 8600, -30],
   pin: 2222,
 };
-
 const account3 = {
   owner: "Tatyana Filimonova",
   movements: [500, 340, -1500, -90, 3210, -1999, 8600, -30],
   pin: 3333,
 };
-
 const account4 = {
   owner: "Anna Filimonova",
   movements: [50, 1000, 700, 50, 30],
   pin: 4444,
 };
-
 const accounts = [account1, account2, account3, account4];
-
 // * Elements
 const labelWelcome = document.querySelector(".welcome"),
   labelDate = document.querySelector(".date"),
@@ -43,18 +38,15 @@ console.log(
   labelSumInterest,
   labelTimer
 );
-
 const containerApp = document.querySelector(".app"),
   containerMovements = document.querySelector(".movements");
 console.log(containerApp, containerMovements);
-
 const btnLogin = document.querySelector(".login__btn"),
   btnTransfer = document.querySelector(".form__btn--transfer"),
   btnLoan = document.querySelector(".form__btn--loan"),
   btnClose = document.querySelector(".form__btn--close"),
   btnSort = document.querySelector(".btn--sort");
 console.log(btnLogin, btnTransfer, btnLoan, btnClose, btnSort);
-
 const inputLoginUsername = document.querySelector(".login__input--user"),
   inputLoginPin = document.querySelector(".login__input--pin"),
   inputTransferTo = document.querySelector(".form__input--to"),
@@ -90,7 +82,6 @@ function displayMovements(movements) {
     containerMovements.insertAdjacentHTML("afterbegin", html);
   });
 }
-
 // todo Создание логина из ФИО в объекте
 function createLogIn(accs) {
   accs.forEach((acc) => {
@@ -103,11 +94,9 @@ function createLogIn(accs) {
       .join("");
   });
 }
-
 createLogIn(accounts);
 console.log(accounts);
 
-// Метод массива REDUCE
 // todo Подсчет и вывод на страницу общего баланса (reduce)
 function calcPrintBalance(acc) {
   acc.balance = acc.movements.reduce(function (acc, val) {
@@ -126,21 +115,19 @@ function calcDisplaySum(movements) {
     .filter((mov) => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = `${Math.abs(out)}₽`;
-
   labelSumInterest.textContent = `${incomes + out}₽`;
 }
-
 const acc = accounts.find((acc) => acc.owner === "Tatyana Filimonova");
 console.log(acc);
 
-// Объединение функций
+// Общая функция
 function updateUI(acc) {
   displayMovements(acc.movements);
   calcPrintBalance(acc);
   calcDisplaySum(acc.movements);
 }
 
-// Кнопка логин
+// Кнопка Login
 let currentAccount;
 btnLogin.addEventListener("click", function (e) {
   e.preventDefault();
@@ -149,7 +136,6 @@ btnLogin.addEventListener("click", function (e) {
     return acc.logIn === inputLoginUsername.value;
   });
   console.log(currentAccount);
-
   if (currentAccount && currentAccount.pin === +inputLoginPin.value) {
     console.log("Oni chan");
     containerApp.style.opacity = 100;
