@@ -218,8 +218,10 @@ btnLogin.addEventListener("click", function (e) {
 Сначала сохранить все в practice:
 git status - проверка
 git add . - сохраняем
+git commit -m "Что изменил"
 git push origin practice - пушим в ветку practice на GitHub
-git merge master - совмещаем эту ветку practice с веткой master
+git checkout master - сменили ветку на master
+git merge practice - совмещаем ветку master с веткой practice
 */
 
 // ! 8 - 13 Урок Перевод средств из аккаунта
