@@ -1,7 +1,5 @@
 "use strict";
 
-// ! Иди к следующему bookmark. Это копия с main6.js
-
 const account1 = {
   owner: "Daniil Minin",
   movements: [2000000, 450, -400, 3000, -650, -130, 70, 1300],
@@ -60,7 +58,7 @@ console.log(btnLogin, btnTransfer, btnLoan, btnClose, btnSort);
 const inputLoginUsername = document.querySelector(".login__input--user"),
   inputLoginPin = document.querySelector(".login__input--pin"),
   inputTransferTo = document.querySelector(".form__input--to"),
-  inputTransferAmount = document.querySelector(".login__input--amount"),
+  inputTransferAmount = document.querySelector(".form__input--amount"),
   inputLoanAmount = document.querySelector(".form__input--loan-amount"),
   inputCloseUsername = document.querySelector(".form__input--user"),
   inputClosePin = document.querySelector(".form__input--pin");
@@ -76,7 +74,6 @@ console.log(
 
 // Todo Вывод на страницу всех приходов и уходов
 function displayMovements(movements) {
-  // Вот оно
   containerMovements.innerHTML = "";
   movements.forEach((val, i) => {
     const textType = val > 0 ? "пополнение" : "снятие";
@@ -112,11 +109,11 @@ console.log(accounts);
 
 // Метод массива REDUCE
 // todo Подсчет и вывод на страницу общего баланса (reduce)
-function calcPrintBalance(movements) {
-  const balance = movements.reduce(function (acc, val) {
+function calcPrintBalance(acc) {
+  acc.balance = acc.movements.reduce(function (acc, val) {
     return acc + val;
   });
-  labelBalance.textContent = `${balance}₽`;
+  labelBalance.textContent = `${acc.balance}₽`;
 }
 
 // todo Подсчет и вывод точечно приход, уход, сумма
@@ -136,6 +133,17 @@ function calcDisplaySum(movements) {
 const acc = accounts.find((acc) => acc.owner === "Tatyana Filimonova");
 console.log(acc);
 
+<<<<<<< HEAD
+=======
+// Объединение функций
+function updateUI(acc) {
+  displayMovements(acc.movements);
+  calcPrintBalance(acc);
+  calcDisplaySum(acc.movements);
+}
+
+// Кнопка логин
+>>>>>>> practice
 let currentAccount;
 btnLogin.addEventListener("click", function (e) {
   e.preventDefault();
@@ -144,6 +152,7 @@ btnLogin.addEventListener("click", function (e) {
     return acc.logIn === inputLoginUsername.value;
   });
   console.log(currentAccount);
+<<<<<<< HEAD
   if (currentAccount && currentAccount.pin === +inputLoginPin.value) {
     console.log("Oni chan");
     containerApp.style.opacity = 100;
@@ -153,3 +162,34 @@ btnLogin.addEventListener("click", function (e) {
     inputLoginPin.value = inputLoginUsername.value = "";
   }
 });
+=======
+
+  if (currentAccount && currentAccount.pin === +inputLoginPin.value) {
+    console.log("Oni chan");
+    containerApp.style.opacity = 100;
+    updateUI(currentAccount);
+    inputLoginPin.value = inputLoginUsername.value = "";
+  }
+});
+
+// Кнопка перевод средств
+btnTransfer.addEventListener("click", function (e) {
+  e.preventDefault();
+  const recieveAcc = accounts.find(function (acc) {
+    return acc.logIn === inputTransferTo.value;
+  });
+  const amount = Number(inputTransferAmount.value);
+  console.log(amount, recieveAcc);
+  if (
+    recieveAcc &&
+    amount > 0 &&
+    currentAccount.balance > amount &&
+    recieveAcc !== currentAccount.logIn
+  ) {
+    currentAccount.movements.push(-amount);
+    recieveAcc.movements.push(amount);
+    updateUI(currentAccount);
+    inputTransferTo.value = inputTransferAmount.value = "";
+  }
+});
+>>>>>>> practice
