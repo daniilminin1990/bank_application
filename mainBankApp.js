@@ -143,7 +143,6 @@ function updateUI(acc) {
 }
 
 // Кнопка логин
->>>>>>> practice
 let currentAccount;
 btnLogin.addEventListener("click", function (e) {
   e.preventDefault();
@@ -152,7 +151,6 @@ btnLogin.addEventListener("click", function (e) {
     return acc.logIn === inputLoginUsername.value;
   });
   console.log(currentAccount);
-<<<<<<< HEAD
   if (currentAccount && currentAccount.pin === +inputLoginPin.value) {
     console.log("Oni chan");
     containerApp.style.opacity = 100;
@@ -162,7 +160,6 @@ btnLogin.addEventListener("click", function (e) {
     inputLoginPin.value = inputLoginUsername.value = "";
   }
 });
-=======
 
   if (currentAccount && currentAccount.pin === +inputLoginPin.value) {
     console.log("Oni chan");
@@ -192,4 +189,3 @@ btnTransfer.addEventListener("click", function (e) {
     inputTransferTo.value = inputTransferAmount.value = "";
   }
 });
->>>>>>> practice
