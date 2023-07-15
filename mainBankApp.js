@@ -60,7 +60,7 @@ console.log(btnLogin, btnTransfer, btnLoan, btnClose, btnSort);
 const inputLoginUsername = document.querySelector(".login__input--user"),
   inputLoginPin = document.querySelector(".login__input--pin"),
   inputTransferTo = document.querySelector(".form__input--to"),
-  inputTransferAmount = document.querySelector(".login__input--amount"),
+  inputTransferAmount = document.querySelector(".form__input--amount"),
   inputLoanAmount = document.querySelector(".form__input--loan-amount"),
   inputCloseUsername = document.querySelector(".form__input--user"),
   inputClosePin = document.querySelector(".form__input--pin");
@@ -115,11 +115,11 @@ console.log(accounts); // ЕБАТЬ ВСЕ ЗАРАБОТАЛО С ПЕРВОГ
 
 // Метод массива REDUCE
 // todo Подсчет и вывод на страницу общего баланса (reduce)
-function calcPrintBalance(movements) {
-  const balance = movements.reduce(function (acc, val) {
+function calcPrintBalance(acc) {
+  acc.balance = acc.movements.reduce(function (acc, val) {
     return acc + val;
   });
-  labelBalance.textContent = `${balance}₽`;
+  labelBalance.textContent = `${acc.balance}₽`;
 }
 // calcPrintBalance(account1.movements);
 
@@ -183,6 +183,19 @@ Todo: Еще один момент для form - когда мы, после в�
 2 у нас есть переменная inputLoginPin, которая соответствует полю ввода тега input с классом login__input--pin.
   Если введенный в поле inputLoginPin будет совпадать с accounts.account.pin, то возвращаем свойство opacity: 0 переменной containerApp, который тег app,
 */
+
+/*
+ * Создадим одну общую большую функцию, по вызову функций calcPrintBalance, calcDisplaySum, displayMovements
+ *
+ *
+ */
+
+function updateUI(acc) {
+  displayMovements(acc.movements);
+  calcPrintBalance(acc);
+  calcDisplaySum(acc.movements);
+}
+
 let currentAccount;
 btnLogin.addEventListener("click", function (e) {
   e.preventDefault();
@@ -203,9 +216,7 @@ btnLogin.addEventListener("click", function (e) {
     // Включим opacity: 0 в style.css, и отключим его с помощью js
     containerApp.style.opacity = 100;
     // Теперь нужно обновить поля "текущий баланс", столбец прихода-ухода и значения в footer приход-уход-сумма. Функции написаны, их нужно применить с переменной currentAccount
-    displayMovements(currentAccount.movements);
-    calcPrintBalance(currentAccount.movements);
-    calcDisplaySum(currentAccount.movements);
+    updateUI(currentAccount);
     // После того как залогинились, нужно удалять данные из Input, а они пока там остаются
     inputLoginPin.value = inputLoginUsername.value = "";
   }
@@ -222,6 +233,50 @@ git commit -m "Что изменил"
 git push origin practice - пушим в ветку practice на GitHub
 git checkout master - сменили ветку на master
 git merge practice - совмещаем ветку master с веткой practice
+Изменяем документ, например удаляем лишние комменты
+git add .
+git commit -m "Что изменил"
+git push
+git checkout practice 
 */
 
 // ! 8 - 13 Урок Перевод средств из аккаунта
+/* 
+Работаем с полем перевод денег
+С полем ввода "перевод на"
+С полем ввода "Сумма"
+Кнопка
+*/
+btnTransfer.addEventListener("click", function (e) {
+  e.preventDefault();
+  // создаем переменные для вводимых "кому" (через find) и "сумм"
+  const recieveAcc = accounts.find(function (acc) {
+    return acc.logIn === inputTransferTo.value;
+  });
+  const amount = Number(inputTransferAmount.value);
+  console.log(amount, recieveAcc);
+  /* 
+  Нужно предусмотреть 5 вещей  
+  1 Мы не можем отправлять минусовые
+  2 Не можем отправлять больше чем есть на акке
+  3 Переводить самому себе нельзя
+  4 + существует ли акк, на который переводим
+  Для создания нужной переменной, в функции calcPrintBalance изменили параметр с movements на acc. А внутри поменяли все так, чтобы можно было создать новое свойство в объекте пользователя - 
+  balance - итоговый счет пользователя. Теперь мы можем адресовываться к этому значению без проблем и лишних проволочек 
+  */
+  if (
+    recieveAcc &&
+    amount > 0 &&
+    currentAccount.balance > amount &&
+    recieveAcc !== currentAccount.logIn
+  ) {
+    // console.log("Платеж прошел");
+    // отправим эти данные в нужные поля
+    currentAccount.movements.push(-amount);
+    recieveAcc.movements.push(amount);
+    // Выше сделали суперфункцию updateUI, которая собирает все функции по обновлению сумм. Также поменяли эти 3 функции btnLogin.addEventListener
+    updateUI(currentAccount);
+    // Обнулим поля ввода после нажатия на кнопку
+    inputTransferTo.value = inputTransferAmount.value = "";
+  }
+});
