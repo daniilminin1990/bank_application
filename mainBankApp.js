@@ -1,7 +1,5 @@
 "use strict";
 
-// ! Иди к следующему bookmark. Это копия с main6.js
-
 const account1 = {
   owner: "Daniil Minin",
   movements: [2000000, 450, -400, 3000, -650, -130, 70, 1300],
@@ -135,14 +133,14 @@ function calcDisplaySum(movements) {
 const acc = accounts.find((acc) => acc.owner === "Tatyana Filimonova");
 console.log(acc);
 
-// Общая функция
+// Объединение функций
 function updateUI(acc) {
   displayMovements(acc.movements);
   calcPrintBalance(acc);
   calcDisplaySum(acc.movements);
 }
 
-// Кнопка логина
+// Кнопка логин
 let currentAccount;
 btnLogin.addEventListener("click", function (e) {
   e.preventDefault();
@@ -159,7 +157,7 @@ btnLogin.addEventListener("click", function (e) {
   }
 });
 
-// Кнопка перевода средств
+// Кнопка перевод средств
 btnTransfer.addEventListener("click", function (e) {
   e.preventDefault();
   const recieveAcc = accounts.find(function (acc) {
