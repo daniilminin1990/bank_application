@@ -133,8 +133,6 @@ function calcDisplaySum(movements) {
 const acc = accounts.find((acc) => acc.owner === "Tatyana Filimonova");
 console.log(acc);
 
-<<<<<<< HEAD
-=======
 // Объединение функций
 function updateUI(acc) {
   displayMovements(acc.movements);
