@@ -216,76 +216,58 @@ const allBalance = accounts
   .reduce((acc, mov) => acc + mov, 0);
 console.log(allBalance); // 2025322
 
-// ! 8-17 метод массива sort()
-/* 
-Сортирует массив. ИЗМЕНЯЕТ ОРИГИНАЛЬНЫЙ МАССИВ
-Сравнивает все элементы по юникоду. Т.е. если у нас будут заглавные и строчные буквы, то все пойдет по пизде - будет сортировать по приоритетности букв по юникоду JS
-*/
-const arr = ["e", "b", "a", "c", "d"];
-console.log(arr.sort()); //(5) ['a', 'b', 'c', 'd', 'e']
-console.log(arr); // (5) ['a', 'b', 'c', 'd', 'e'] -- МЕНЯЕТ ОРИГИНАЛЬНЫЙ МАССИВ, ЗНАЧИТ ЛУЧШЕ ДЕЛАТЬ НЕЗАВИСИМУЮ КОПИЮ
-
-const arrUp = ["E", "b", "a", "c", "D"];
-console.log(arrUp.sort()); // (5) ['D', 'E', 'a', 'b', 'c'] -- потому что верхний регистр имеет приоритет над нижним
-
-/*
-Что насчет чисел?!
-Числа тоже сортируются как хуйня, но в этом есть логика - 
-sort() сортирует числа сначала конвертировав их в строки, только потом выводит результат. А это значит что 1000 будет раньше чем 200 [1000, 200], но математически это неправильно
-*/
-const arrN = [5000, 3400, -150, -790, -3210, -1999, 8600, -30];
-console.log(arrN.sort()); // (8) [-150, -1999, -30, -3210, -790, 3400, 5000, 8600]
-
-/*
-Вот тут и имеет смысл дополнительный параметр метода - использование callBack функции
-! Внимание - нужно просто запомнить формулу этой функции, иначе заебессья
-Есть 3 варианта написания:
-1 - долго, с if
-console.log(
-  arrN.sort(function (a, b) {
-    if (a > b) {
-      return 1;
-    }
-    if (a < b) {
-      return -1;
-    }
-  })
-); // (8) [-3210, -1999, -790, -150, -30, 3400, 5000, 8600]
-
-2 - короче, a - b
-console.log(
-  arrN.sort(function (a, b) {
-    return a - b;
-  })
-); // (8) [-3210, -1999, -790, -150, -30, 3400, 5000, 8600]
-
-3 - стрелочный
-console.log(arrN.sort((a, b) => a - b)); // (8) [-3210, -1999, -790, -150, -30, 3400, 5000, 8600]
-
-То есть этот метод с callBack сравнивает каждую пару чисел. И пока не будет удовлетворено условие с каждой новой итерацией, он не успокоится
-*/
-
-/* 
-! Теперь сделаем дополнения в код выше.
-1) В функции displayMovements добавим доп параметр, который нам понадобится для реализации функции сортировки movements
-* function displayMovements(movements) { // было
-* function displayMovements(movements, sort = false) { // стало
-Т.е. ввели значение по умолчанию
-2) Здесь же создадим переменную, которая будет независимой копией (т.к. sort изменяет оригинал) сортировать movements в зависимости от условия, будет ли sort = true или false, т.е. через тернарный оператор
-* const movs = sort ? movements.slice().sort((a,b) => a - b) : movements;
-3) Заменим 
-* movements.forEach(function (value, i) { // было
-* movs.forEach(function (value, i) { // было
-
-*/
-
 // Кнопка Фильтр
-// создадим переменную sorted = false, чтобы манипулировать ей для фильтрации
 let sorted = false;
 btnSort.addEventListener("click", function (e) {
   e.preventDefault();
-  // вызываем доработанную функцию displayMovements
   displayMovements(currentAccount.movements, !sorted);
-  // Будет меняться при каждом нажатии на кнопку
   sorted = !sorted;
+});
+
+// ! 8-18 Метод массива fill() и Array.from()
+/* 
+fill() позволяет заполнять определенную ячейку массива определенным нами элементом. НЕТ КОЛЛБЕК ФУНКЦИИ
+НО ИЗМЕНЯЕТ ОРИГИНАЛЬНЫЙ МАССИВ
+если указывать только 1 параметр, то fill заменит все существующие элементы на этот параметр
+
+const arr = [1, 2, 3, 4, 5];
+arr.fill(1);
+console.log(arr); // (5) [1, 1, 1, 1, 1]
+
+Остальные параметры работают точно также, как метод slice - то есть startIndex, lastIndex (т.е. сделай замену с такого-то индекса по такой)
+
+const arr = [1, 2, 3, 4, 5];
+arr.fill("Hi", 2, 4);
+console.log(arr); // (5) [1, 2, 'Hi', 'Hi', 5]
+
+Array.from() - создает массив из любого итерируемого объекта (string, Map, Set)
+const str = "12345";
+console.log(Array.from(str)); // (5) ['1', '2', '3', '4', '5']
+
+И в Array.from может быть второй параметр - колбек функция которая является методом map
+const str = "12345";
+console.log(
+  Array.from(str, function (val) {
+    return "Число " + val;
+  })
+); // (5) ['Число 1', 'Число 2', 'Число 3', 'Число 4', 'Число 5']
+
+Еще Array.from() не изменяет оригинальный псевдомассив
+
+*/
+
+/* 
+Теперь чисто для практики будем собирать все строки из списка передвижений денежных средств, по нажатию на class balance__value, который является переменной labelBalance
+По нажатию на него будет собирать псевдоколлекцию из всех movements__value
+*/
+
+// Замена "р" на "RUB"
+labelBalance.addEventListener("click", function () {
+  // console.log(document.querySelectorAll(".movements__value")); // NodeList(8) [div.movements__value, div.movements__value, div.movements__value, div.movements__value, div.movements__value, div.movements__value, div.movements__value, div.movements__value]
+  // Получили псевдоколлекцию Protorype: NodeList, а на псевдоколлекции мы не можем применять каких-либо методов массива
+  // Теперь сделаем массив и поменяем символ рублей на RUB
+  Array.from(document.querySelectorAll(".movements__value"), function (val, i) {
+    return (val.innerText = val.innerText.replace("₽", "RUB"));
+    // * innerText считывает все переносы строк (как отображено), а textContent нет
+  });
 });
