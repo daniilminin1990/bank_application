@@ -73,9 +73,10 @@ console.log(
 );
 
 // Todo Вывод на страницу всех приходов и уходов
-function displayMovements(movements) {
+function displayMovements(movements, sort = false) {
   containerMovements.innerHTML = "";
-  movements.forEach((val, i) => {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  movs.forEach((val, i) => {
     const textType = val > 0 ? "пополнение" : "снятие";
     const type = val > 0 ? "deposit" : "withdrawal";
     const html = `
@@ -195,43 +196,6 @@ btnClose.addEventListener("click", function (e) {
   inputClosePin.value = inputCloseUsername.value = "";
 });
 
-// ! 8-15 Методы массива Some() и Every()
-/* 
-some() проверяет все элементы массива и возвращает true, если хотя бы один элемент соответствует телу функции (условию)
-Синтаксис
-
-const arr = [1, 2, 3, 4, 5, -5, -10];
-const someRes = function (ar) {
-  return ar.some(function (val) {
-    return val < 0;
-  });
-};
-console.log(someRes(arr)); // true, потому что хотя бы 1 < 0
-
-every() то же, что и some, но возвращает true, если ВСЕ элементы соответствуют телу функции (условию)
-Синтаксис 
-
-const everyRes = function (ar) {
-  return ar.every(function (val) {
-    return val < 0;
-  });
-};
-console.log(everyRes(arr)); // false, потому что не все эл-ты < 0
-
-const arrPos = [1, 2, 3];
-console.log(someRes(arrPos)); // false, потому что ни одного < 0
-console.log(everyRes(arrPos)); // false, потому что нет < 0
-
-const arrNeg = [-1, -4, -10];
-console.log(someRes(arrNeg)); // true, потому что хотя бы 1 < 0
-console.log(everyRes(arrNeg)); // true, потому что все < 0
-*/
-
-/* 
-Работаем с полем "Внести деньги"
-
-*/
-
 // Кнопка "Внести сумму"
 btnLoan.addEventListener("click", function (e) {
   e.preventDefault();
@@ -245,44 +209,83 @@ btnLoan.addEventListener("click", function (e) {
   inputLoanAmount.value = "";
 });
 
-// ! 8-16 Метод массива flat()
-/* 
-Расформировывает массив с вложенными массивами в один большой массив
-БЕЗ КОЛБЕК ФУНКЦИЙ
-flat() Работает ТОЛЬКО НА ОДНОМ УРОВНЕ ВЛОЖЕННОСТИ
-Поэтому существует возможность указывать параметр - цифру, до какой глубины расформировывать массив
-const arr = [[1, 2, 3], 4, [5, 6, 7]];
-const flatted = arr.flat();
-console.log(flatted); // (7) [1, 2, 3, 4, 5, 6, 7]
-
-// Сделаем второй уровень вложенности
-const arr1 = [[1, [2, 3]], 4, [5, [6, 7]]];
-console.log(arr1.flat(2)); // (7) [1, 2, 3, 4, 5, 6, 7]
-*/
-/* 
-С помощью метода flat сделаем подсчет сумм всех аккаунтов в свойстве movements
-
-const accMap = accounts.map(function (acc) {
-  return acc.movements;
-});
-console.log(accMap); // (4) [Array(8), Array(8), Array(8), Array(5)] - все movements в одном массиве.
-
-// Расплющим массив
-const accMov = accMap.flat();
-console.log(accMov); // (29) [2000000, 450, -400, 3000, -650, -130, 70, 1300, 5000, 3400, -150, -790, -3210, -1999, 8600, -30, 500, 340, -1500, -90, 3210, -1999, 8600, -30, 50, 1000, 700, 50, 30]
-
-// Сложим все значения массива
-const allBalance = accMov.reduce(function (acc, mov) {
-  return acc + mov;
-}, 0);
-console.log(allBalance); // 2025322
-
-Но такая запись не очень читабельная, поэтому объединим все в одно длинное выражение
-*/
-
 // Общий баланс всех аккаунтов
 const allBalance = accounts
   .map((acc) => acc.movements)
   .flat()
   .reduce((acc, mov) => acc + mov, 0);
 console.log(allBalance); // 2025322
+
+// ! 8-17 метод массива sort()
+/* 
+Сортирует массив. ИЗМЕНЯЕТ ОРИГИНАЛЬНЫЙ МАССИВ
+Сравнивает все элементы по юникоду. Т.е. если у нас будут заглавные и строчные буквы, то все пойдет по пизде - будет сортировать по приоритетности букв по юникоду JS
+*/
+const arr = ["e", "b", "a", "c", "d"];
+console.log(arr.sort()); //(5) ['a', 'b', 'c', 'd', 'e']
+console.log(arr); // (5) ['a', 'b', 'c', 'd', 'e'] -- МЕНЯЕТ ОРИГИНАЛЬНЫЙ МАССИВ, ЗНАЧИТ ЛУЧШЕ ДЕЛАТЬ НЕЗАВИСИМУЮ КОПИЮ
+
+const arrUp = ["E", "b", "a", "c", "D"];
+console.log(arrUp.sort()); // (5) ['D', 'E', 'a', 'b', 'c'] -- потому что верхний регистр имеет приоритет над нижним
+
+/*
+Что насчет чисел?!
+Числа тоже сортируются как хуйня, но в этом есть логика - 
+sort() сортирует числа сначала конвертировав их в строки, только потом выводит результат. А это значит что 1000 будет раньше чем 200 [1000, 200], но математически это неправильно
+*/
+const arrN = [5000, 3400, -150, -790, -3210, -1999, 8600, -30];
+console.log(arrN.sort()); // (8) [-150, -1999, -30, -3210, -790, 3400, 5000, 8600]
+
+/*
+Вот тут и имеет смысл дополнительный параметр метода - использование callBack функции
+! Внимание - нужно просто запомнить формулу этой функции, иначе заебессья
+Есть 3 варианта написания:
+1 - долго, с if
+console.log(
+  arrN.sort(function (a, b) {
+    if (a > b) {
+      return 1;
+    }
+    if (a < b) {
+      return -1;
+    }
+  })
+); // (8) [-3210, -1999, -790, -150, -30, 3400, 5000, 8600]
+
+2 - короче, a - b
+console.log(
+  arrN.sort(function (a, b) {
+    return a - b;
+  })
+); // (8) [-3210, -1999, -790, -150, -30, 3400, 5000, 8600]
+
+3 - стрелочный
+console.log(arrN.sort((a, b) => a - b)); // (8) [-3210, -1999, -790, -150, -30, 3400, 5000, 8600]
+
+То есть этот метод с callBack сравнивает каждую пару чисел. И пока не будет удовлетворено условие с каждой новой итерацией, он не успокоится
+*/
+
+/* 
+! Теперь сделаем дополнения в код выше.
+1) В функции displayMovements добавим доп параметр, который нам понадобится для реализации функции сортировки movements
+* function displayMovements(movements) { // было
+* function displayMovements(movements, sort = false) { // стало
+Т.е. ввели значение по умолчанию
+2) Здесь же создадим переменную, которая будет независимой копией (т.к. sort изменяет оригинал) сортировать movements в зависимости от условия, будет ли sort = true или false, т.е. через тернарный оператор
+* const movs = sort ? movements.slice().sort((a,b) => a - b) : movements;
+3) Заменим 
+* movements.forEach(function (value, i) { // было
+* movs.forEach(function (value, i) { // было
+
+*/
+
+// Кнопка Фильтр
+// создадим переменную sorted = false, чтобы манипулировать ей для фильтрации
+let sorted = false;
+btnSort.addEventListener("click", function (e) {
+  e.preventDefault();
+  // вызываем доработанную функцию displayMovements
+  displayMovements(currentAccount.movements, !sorted);
+  // Будет меняться при каждом нажатии на кнопку
+  sorted = !sorted;
+});
