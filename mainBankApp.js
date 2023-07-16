@@ -209,3 +209,51 @@ btnSort.addEventListener("click", function (e) {
   displayMovements(currentAccount.movements, !sorted);
   sorted = !sorted;
 });
+
+// ! 8-18 Метод массива fill() и Array.from()
+/* 
+fill() позволяет заполнять определенную ячейку массива определенным нами элементом. НЕТ КОЛЛБЕК ФУНКЦИИ
+НО ИЗМЕНЯЕТ ОРИГИНАЛЬНЫЙ МАССИВ
+если указывать только 1 параметр, то fill заменит все существующие элементы на этот параметр
+
+const arr = [1, 2, 3, 4, 5];
+arr.fill(1);
+console.log(arr); // (5) [1, 1, 1, 1, 1]
+
+Остальные параметры работают точно также, как метод slice - то есть startIndex, lastIndex (т.е. сделай замену с такого-то индекса по такой)
+
+const arr = [1, 2, 3, 4, 5];
+arr.fill("Hi", 2, 4);
+console.log(arr); // (5) [1, 2, 'Hi', 'Hi', 5]
+
+Array.from() - создает массив из любого итерируемого объекта (string, Map, Set)
+const str = "12345";
+console.log(Array.from(str)); // (5) ['1', '2', '3', '4', '5']
+
+И в Array.from может быть второй параметр - колбек функция которая является методом map
+const str = "12345";
+console.log(
+  Array.from(str, function (val) {
+    return "Число " + val;
+  })
+); // (5) ['Число 1', 'Число 2', 'Число 3', 'Число 4', 'Число 5']
+
+Еще Array.from() не изменяет оригинальный псевдомассив
+
+*/
+
+/* 
+Теперь чисто для практики будем собирать все строки из списка передвижений денежных средств, по нажатию на class balance__value, который является переменной labelBalance
+По нажатию на него будет собирать псевдоколлекцию из всех movements__value
+*/
+
+// Замена "р" на "RUB"
+labelBalance.addEventListener("click", function () {
+  // console.log(document.querySelectorAll(".movements__value")); // NodeList(8) [div.movements__value, div.movements__value, div.movements__value, div.movements__value, div.movements__value, div.movements__value, div.movements__value, div.movements__value]
+  // Получили псевдоколлекцию Protorype: NodeList, а на псевдоколлекции мы не можем применять каких-либо методов массива
+  // Теперь сделаем массив и поменяем символ рублей на RUB
+  Array.from(document.querySelectorAll(".movements__value"), function (val, i) {
+    return (val.innerText = val.innerText.replace("₽", "RUB"));
+    // * innerText считывает все переносы строк (как отображено), а textContent нет
+  });
+});
