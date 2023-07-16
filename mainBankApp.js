@@ -164,52 +164,19 @@ btnTransfer.addEventListener("click", function (e) {
   }
 });
 
-// ! 8-14 findIndex()
-/* 
-Урок 8-14 Метод массива findIndex()
-
-Используется для определения индекса элемента в массиве. Перебирает массив и исходя из результата true или false, возвращает индекс элемента массива
-
-const arr = [1, 2, 3, 4, 5, 6, 7];
-const index = arr.findIndex(function (num) {
-  return num === 5;
-});
-console.log(index); // 4
-
-Но в чем отличие от indexOf
-
-const fIn = arr.indexOf(5);
-console.log(fIn); // 4
-
-В примерах выше - ни в чем, результат тот же, но для более сложных структур findIndex лучше, так как сам по себе более глубокий, чем indexOf
-indexOf - мы не можем зайти вглубь элемента и поиск производится только на поверхности.
-
-Сделаем то же самое для наших аккаунтов
-const index = accounts.findIndex((acc) => acc.logIn === "af");
-console.log(index); // 1
-
-Работаем над полем "Закрытие аккаунта"
-*/
+// Закрытие аккаунта, удаление аккаунта из общего списка
 btnClose.addEventListener("click", function (e) {
   e.preventDefault();
-  /* Нужно чтобы пользователь совпадал с currentAcc, PIN = currentAcc.pin */
-  // inputCloseUsername
-  // inputClosePin
   if (
     inputCloseUsername.value === currentAccount.logIn &&
     Number(inputClosePin.value) === currentAccount.pin
   ) {
-    // ищем индекс текущего аккаунта ис массива аккаунтов
     const index = accounts.findIndex(function (acc) {
       return acc.logIn === currentAccount.logIn;
     });
-    // console.log(index); // dm 1111 ---> 0, если ввести неверные данные - то ничего не получим
-    // Для удаления аккаунта воспользуемся методом SPLICE (точечное удаление из массива)
     accounts.splice(index, 1);
-    // Теперь нужно выйти на стартовую страницу, а все содержимое содержится в переменной containerApp и изменим style.opacity на 0
     containerApp.style.opacity = 0;
     console.log(accounts); // аккаунт удаляется
   }
-  // Здесь очищаем поля inputClosePin и inputCloseUsername
   inputClosePin.value = inputCloseUsername.value = "";
 });
