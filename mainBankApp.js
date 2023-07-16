@@ -181,43 +181,6 @@ btnClose.addEventListener("click", function (e) {
   inputClosePin.value = inputCloseUsername.value = "";
 });
 
-// ! 8-15 Методы массива Some() и Every()
-/* 
-some() проверяет все элементы массива и возвращает true, если хотя бы один элемент соответствует телу функции (условию)
-Синтаксис
-
-const arr = [1, 2, 3, 4, 5, -5, -10];
-const someRes = function (ar) {
-  return ar.some(function (val) {
-    return val < 0;
-  });
-};
-console.log(someRes(arr)); // true, потому что хотя бы 1 < 0
-
-every() то же, что и some, но возвращает true, если ВСЕ элементы соответствуют телу функции (условию)
-Синтаксис 
-
-const everyRes = function (ar) {
-  return ar.every(function (val) {
-    return val < 0;
-  });
-};
-console.log(everyRes(arr)); // false, потому что не все эл-ты < 0
-
-const arrPos = [1, 2, 3];
-console.log(someRes(arrPos)); // false, потому что ни одного < 0
-console.log(everyRes(arrPos)); // false, потому что нет < 0
-
-const arrNeg = [-1, -4, -10];
-console.log(someRes(arrNeg)); // true, потому что хотя бы 1 < 0
-console.log(everyRes(arrNeg)); // true, потому что все < 0
-*/
-
-/* 
-Работаем с полем "Внести деньги"
-
-*/
-
 // Кнопка "Внести сумму"
 btnLoan.addEventListener("click", function (e) {
   e.preventDefault();
@@ -230,41 +193,6 @@ btnLoan.addEventListener("click", function (e) {
   // Очищаем поле input
   inputLoanAmount.value = "";
 });
-
-// ! 8-16 Метод массива flat()
-/* 
-Расформировывает массив с вложенными массивами в один большой массив
-БЕЗ КОЛБЕК ФУНКЦИЙ
-flat() Работает ТОЛЬКО НА ОДНОМ УРОВНЕ ВЛОЖЕННОСТИ
-Поэтому существует возможность указывать параметр - цифру, до какой глубины расформировывать массив
-const arr = [[1, 2, 3], 4, [5, 6, 7]];
-const flatted = arr.flat();
-console.log(flatted); // (7) [1, 2, 3, 4, 5, 6, 7]
-
-// Сделаем второй уровень вложенности
-const arr1 = [[1, [2, 3]], 4, [5, [6, 7]]];
-console.log(arr1.flat(2)); // (7) [1, 2, 3, 4, 5, 6, 7]
-*/
-/* 
-С помощью метода flat сделаем подсчет сумм всех аккаунтов в свойстве movements
-
-const accMap = accounts.map(function (acc) {
-  return acc.movements;
-});
-console.log(accMap); // (4) [Array(8), Array(8), Array(8), Array(5)] - все movements в одном массиве.
-
-// Расплющим массив
-const accMov = accMap.flat();
-console.log(accMov); // (29) [2000000, 450, -400, 3000, -650, -130, 70, 1300, 5000, 3400, -150, -790, -3210, -1999, 8600, -30, 500, 340, -1500, -90, 3210, -1999, 8600, -30, 50, 1000, 700, 50, 30]
-
-// Сложим все значения массива
-const allBalance = accMov.reduce(function (acc, mov) {
-  return acc + mov;
-}, 0);
-console.log(allBalance); // 2025322
-
-Но такая запись не очень читабельная, поэтому объединим все в одно длинное выражение
-*/
 
 // Общий баланс всех аккаунтов
 const allBalance = accounts
