@@ -244,3 +244,5 @@ btnLoan.addEventListener("click", function (e) {
   // Очищаем поле input
   inputLoanAmount.value = "";
 });
+
+// ! 8-16 Метод массива flat()
