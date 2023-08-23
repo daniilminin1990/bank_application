@@ -1,21 +1,63 @@
-/* ! Это копия с index4 */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: inherit; /* Это рудимент???? */
+:root {
+  --bgc-body: #f3f3ff;
+  --color-body: #444;
+  --bgc-alfa04: rgba(255, 255, 255, 0.4);
+  --bgc-alfa06: rgba(255, 255, 255, 0.6);
+  --bgc-alfa08: rgba(255, 255, 255, 0.8);
+  --minus-bg: linear-gradient(to top left, #e52a84, #ff585f);
+  --plus-bg: linear-gradient(to top left, #39b385, #74f900fb);
+  --transfer-bg: linear-gradient(to top left, #e0de69, #ffcb03);
+  --dark: #333;
+  --green: #66c873;
+  --red: #f5465d;
+  --grey: #666;
+  --light-grey: #888;
+  --extra-light-grey: #bbb;
+  --border-btm: 1px solid #eee;
 }
 
 html {
+  box-sizing: border-box;
   font-size: 62.5%;
   box-sizing: border-box;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
 body {
-  font-family: "Poppins", sans-serif;
-  color: #444;
-  background-color: #f3f3ff;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  color: var(--color-body);
+  background-color: var(--bgc-body);
   height: 100vh;
   padding: 2rem;
+  font-family: 'Bitter', serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  padding: 0;
+}
+h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--dark);
 }
 
 nav {
@@ -55,16 +97,12 @@ nav {
 
 .login__input:focus {
   outline: none;
-  border: 1px solid #ccc;
+  border: var(--border-btm);
 }
 .login__input::placeholder {
-  color: #bbb;
+  color: var(--extra-light-grey);
 }
 
-/* .login__input--user {
-} */
-/* .login__input--pin {
-} */
 .login__btn {
   padding: 10px;
   border: none;
@@ -77,10 +115,10 @@ nav {
 
 .login__btn:hover,
 .login__btn:focus,
-.btn--sort:hover,
-.btn--sort:focus {
+.btn-sort:hover,
+.btn-sort:focus {
   outline: none;
-  color: #777;
+  color: var(--light-grey);
 }
 
 .app {
@@ -88,7 +126,6 @@ nav {
   min-width: 100rem;
   margin: 4rem auto;
   display: grid;
-  /*! Все, грид начался, дальше забил */
   grid-template-columns: 5fr 3fr;
   grid-template-rows: auto repeat(3, 15rem) auto;
   gap: 2rem;
@@ -112,7 +149,7 @@ nav {
 
 .balance__date {
   font-size: 1.4rem;
-  color: #888;
+  color: var(--light-grey);
 }
 
 .balance__value {
@@ -132,7 +169,7 @@ nav {
   padding: 2.25rem 4rem;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #eee;
+  border-bottom: var(--border-btm);
 }
 
 .movements__type {
@@ -149,15 +186,15 @@ nav {
   font-size: 1.1rem;
   text-transform: uppercase;
   font-weight: 500;
-  color: #666;
+  color: var(--grey);
 }
 
-.movements__type--deposit {
-  background-image: linear-gradient(to top left, #39b385, #9be15d);
+.movements__type-deposit {
+  background-image: var(--plus-bg);
 }
 
-.movements__type--withdrawal {
-  background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+.movements__type-withdrawal {
+  background-image: var(--minus-bg);
 }
 
 .movements__value {
@@ -185,16 +222,16 @@ nav {
   margin-right: 2.5rem;
 }
 
-.summary__value--in,
-.summary__value--interest {
-  color: #66c873;
+.summary__value-in,
+.summary__value-interest {
+  color: var(--green);
 }
 
-.summary__value--out {
-  color: #f5465d;
+.summary__value-out {
+  color: var(--red);
 }
 
-.btn--sort {
+.btn-sort {
   margin-left: auto;
   border: none;
   background: none;
@@ -206,26 +243,19 @@ nav {
 .operation {
   border-radius: 1rem;
   padding: 3rem 4rem;
-  color: #333;
+  color: var(--dark);
 }
 
-.operation--transfer {
-  background-image: linear-gradient(to top left, #ffb003, #ffcb03);
+.operation-transfer {
+  background-image: var(--transfer-bg);
 }
 
-.operation--loan {
-  background-image: linear-gradient(to top left, #39b385, #9be15d);
+.operation-loan {
+  background-image: var(--plus-bg);
 }
 
-.operation--close {
-  background-image: linear-gradient(to top left, #e52a5a, #ff585f);
-}
-
-h2 {
-  margin-bottom: 1.5rem;
-  font-size: 1.7rem;
-  font-weight: 600;
-  color: #333;
+.operation-close {
+  background-image: var(--minus-bg);
 }
 
 .form {
@@ -235,21 +265,21 @@ h2 {
   gap: 0.4rem 1rem;
 }
 
-.form.form--loan {
+.form.form-loan {
   grid-template-columns: 2.5fr 1fr 2.5fr;
 }
-.form__label--loan {
+.form__label-loan {
   grid-row: 2;
 }
 
 .form__input {
   width: 100%;
   border: none;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: var(--bgc-alfa04);
   font-family: inherit;
   font-size: 1.5rem;
   text-align: center;
-  color: #333;
+  color: var(--dark);
   padding: 0.3rem 1rem;
   border-radius: 0.7rem;
   transition: all 0.3s;
@@ -257,7 +287,7 @@ h2 {
 
 .form__input:focus {
   outline: none;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: var(--bgc-alfa06);
 }
 
 .form__label {
@@ -276,7 +306,7 @@ h2 {
 
 .form__btn:focus {
   outline: none;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: var(--bgc-alfa08);
 }
 
 .logout-timer {
