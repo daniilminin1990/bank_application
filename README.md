@@ -1,5 +1,7 @@
 ## Bank application
 
+Stack: HTML, CSS, JS.
+
 You can login and check all functionality of this app:
 withdraw, transfer, deposit values and also close the account;
 
